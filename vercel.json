@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "phaseapi",
+  "name": "climbrapi",
   "builds": [
     { "src": "index.mjs", "use": "@vercel/node" }
   ],
