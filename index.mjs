@@ -1,5 +1,5 @@
 import "./loadEnv.mjs";
-import posts from "./routes/rooms.mjs";
+import rooms from "./routes/rooms.mjs";
 import cors from "cors";
 import express from "express";
 
