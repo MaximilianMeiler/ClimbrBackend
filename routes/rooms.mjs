@@ -49,23 +49,21 @@ router.get("/", async (req, res) => {
 //   }
 // });
 
-// router.patch("/frienddel/:id1/:id2", async (req, res) => {
-//   let collection = await db.collection("rooms");
-//   let user = {_id: new ObjectId(req.params.id1)};
-//   let result = await collection.findOne(user);
+router.patch("/leave/:room/:user", async (req, res) => {
+  let result = await collection.findOne({id: req.params.room});
 
-//   if (!result) res.send("Not found").status(404);
-//   else {
-//     const newFriends = result.data.friends.filter(f => f != req.params.id2)
-//     const update = {
-//       $set: {
-//         "data.friends": newFriends
-//       }
-//     }
-//     let updatedResult = await collection.updateOne(user, update);
-//     res.send(updatedResult).status(200);
-//   }
-// });
+  if (!result) res.send("Not found").status(404);
+  else {
+    const newUsers = result.users.filter(u => u[0] != req.params.user)
+    const update = {
+      $set: {
+        "users": newUsers
+      }
+    }
+    let updatedResult = await collection.updateOne({id: req.params.room}, update);
+    res.send(updatedResult).status(200);
+  }
+});
 
 // router.patch("/reqdel/:id1/:id2", async (req, res) => {
 //   let collection = await db.collection("rooms");
