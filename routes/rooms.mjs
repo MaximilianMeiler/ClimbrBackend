@@ -93,18 +93,17 @@ router.patch("/:room/:user/:task/:card", async (req, res) => {
         } else {
           u[2].concat(req.params.card);
         }
-      }
+      } 
     })
     const newTasks = result.tasks.map(t => {
       if (t.title == req.params.task && t.redo == false) {
         t.acheived.concat(req.params.user);
-      }
+      } 
     })
 
     const update = {
       $set: {
-        "users": newUsers,
-        "tasks": newTasks
+        "users": newUsers
       }
     }
     let updatedResult = await collection.updateOne({id: req.params.room}, update);
