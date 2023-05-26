@@ -65,6 +65,23 @@ router.patch("/leave/:room/:user", async (req, res) => {
   }
 });
 
+router.patch("/join/:room/:user", async (req, res) => {
+  let result = await collection.findOne({id: req.params.room});
+
+  if (!result) res.send("Not found").status(404);
+  else {
+    const newUsers = result.users.concat([req.params.user, 0, []])
+    const update = {
+      $set: {
+        "users": newUsers
+      }
+    }
+    let updatedResult = await collection.updateOne({id: req.params.room}, update);
+    res.send(updatedResult).status(200);
+  }
+});
+
+
 // router.patch("/reqdel/:id1/:id2", async (req, res) => {
 //   let collection = await db.collection("rooms");
 //   let user = {_id: new ObjectId(req.params.id1)};
