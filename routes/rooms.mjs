@@ -70,7 +70,7 @@ router.patch("/join/:room/:user", async (req, res) => {
 
   if (!result) res.send("Not found").status(404);
   else {
-    const newUsers = result.users.concat([req.params.user, 0, []])
+    const newUsers = result.users.concat([[req.params.user, 0, []]])
     const update = {
       $set: {
         "users": newUsers
