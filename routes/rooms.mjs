@@ -105,8 +105,7 @@ router.patch("/:room/:user/:task/:card", async (req, res) => {
 
     const update = {
       $set: {
-        "users": newUsers,
-        "tasks": newTasks
+        "users": newUsers
       }
     }
     let updatedResult = await collection.updateOne({id: req.params.room}, update);
