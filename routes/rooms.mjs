@@ -81,6 +81,37 @@ router.patch("/join/:room/:user", async (req, res) => {
   }
 });
 
+router.patch("/:room/:user/:task/:card", async (req, res) => {
+  let result = await collection.findOne({id: req.params.room});
+
+  if (!result) res.send("Not found").status(404);
+  else {
+    const newUsers = result.users.map(u => {
+      if (u[0] == req.params.user) {
+        if (req.params.card == -1) {
+          u[1] = u[1] * 1.2;
+        } else {
+          u[2].concat(req.params.card);
+        }
+      }
+    })
+    const newTasks = result.tasks.map(t => {
+      if (t.title == req.params.task && t.redo == false) {
+        t.acheived.concat(req.params.user);
+      }
+    })
+
+    const update = {
+      $set: {
+        "users": newUsers,
+        "tasks": newTasks
+      }
+    }
+    let updatedResult = await collection.updateOne({id: req.params.room}, update);
+    res.send(updatedResult).status(200);
+  }
+});
+
 
 // router.patch("/reqdel/:id1/:id2", async (req, res) => {
 //   let collection = await db.collection("rooms");
